@@ -10,18 +10,19 @@ module.exports = function(app, passport) {
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
-        res.render('index.ejs'); // load the sdada.ejs file
+        res.sendfile('./public/index.html');
+       // res.render('index.ejs'); // load the sdada.ejs file
     });
 
     // =====================================
     // LOGIN ===============================
     // =====================================
-    // show the login form
-    app.get('/login', function(req, res) {
-
-        // render the page and pass in any flash data if it exists
-        res.render('login.ejs', { message: req.flash('loginMessage') });
-    });
+    // // show the login form
+    // app.get('/login', function(req, res) {
+    //
+    //     // render the page and pass in any flash data if it exists
+    //     res.render('login.ejs', { message: req.flash('loginMessage') });
+    // });
 
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
@@ -66,7 +67,8 @@ module.exports = function(app, passport) {
                 return done(err);
             res.render('books.ejs', {
                 user : req.user,                // get the user out of session and pass to template
-                books: books
+                books: books,
+                clickHandler:"func1();"
             });
          });
     });
@@ -78,6 +80,22 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
+
+    app.post('/book',function(req,res,done){
+        var book = req.body;
+        console.log('jjjjj',book);
+        var insertQuery = "INSERT INTO Book (title,description,author ,publisher ,publishedYear,ownerId) VALUES (?,?,?,?,?,?)";
+        console.log(mysql.format(insertQuery,[book.title,book.description, book.author,book.publisher,book.publishedYear,book.ownerId]));
+        connection.query(insertQuery,[book.title,book.description, book.authorB,book.publisher,book.publishedYear,book.ownerId],function(err, rows) {
+            if (err){
+                console.log('err',err)
+                return done(err);
+            }
+            console.log("SUCCESS INSER BOOK",rows);
+
+            res.redirect('/profile');
+        });
+    })
 };
 
 // route middleware to make sure

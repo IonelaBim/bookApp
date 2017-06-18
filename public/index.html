@@ -1,0 +1,79 @@
+<!Doctype html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Share a book</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- load angular  v-1.5.3 -->
+    <script src="vendors/angular.min.js"></script>
+    <!-- load angural-resource for ngResource module v-1.5.3-->
+    <script src="vendors/angular-resource.min.js"></script>
+    <!-- load angular-ui-router v-0.3.0 library -->
+    <script src="vendors/angular-ui-router.min.js"></script>
+    <!-- load ngmessages -->
+    <script src="vendors/angular-messages.min.js"></script>
+    <!-- Bootstrap core and other CSS -->
+    <link href="vendors/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link rel="icon" type="img/ico" href="img/favicon.ico">-->
+    <link rel="stylesheet" href="vendors/css/bootstrap-font-awesome.css">
+
+    <link href="css/home.css" rel="stylesheet">
+
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/home">WebSiteName</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/login"><span class="glyphicon glyphicon-user"></span> Login</a></li>
+                <li><a href="#/signup"><span class="glyphicon glyphicon-log-in"></span> Sign Up</a></li>
+            </ul>
+            <!--<ul class="nav navbar-nav navbar-right">-->
+            <!--<li ng-show="loggedinFlag"><a href=""><span class="glyphicon glyphicon-user" style="padding-right:5px;"></span>userName</a></li>-->
+            <!--<li ng-show="loggedinFlag"><a href="" ng-click="logOut()"><span class="glyphicon glyphicon-log-out" style="padding-right:5px;"></span>lOGOUT</a></li>-->
+            <!--<li ng-show="!loggedinFlag"><a href=
+            "/#/login"><span class="glyphicon glyphicon-log-in" style="padding-right:5px;"></span>Login</a></li>-->
+
+            <!--</ul>-->
+        </div>
+    </div>
+</nav>
+
+<!--load views-->
+<div ui-view></div>
+
+<!-- load JQuery libraries file-->
+<script src="vendors/jquery-3.2.1.min.js"></script>
+<!--<script src="jquery_lib/jquery-ui.min.js"></script>-->
+
+<!-- load BOOTSTRAP libraries file-->
+<script src="vendors/bootstrap-3.3.7.min.js"></script>
+
+<!-- load angular's modules,controllers,services file-->
+<script src="js/modules/app.js"></script>
+
+<!-- controllers -->
+<script src="js/controllers/myController.js"></script>
+
+
+<!--services -->
+<script src="js/services/myService.js"></script>
+
+
+</body>
+</html>
