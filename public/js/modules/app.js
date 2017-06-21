@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router','ngResource','ngMessages']);
+var app = angular.module('myApp', ['ui.router','ngResource','ngMessages','ngCookies']);
 
 app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
@@ -6,7 +6,8 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
         .state('home', {
             url: '/home',
             views: {
-                '': { templateUrl: 'views/home.html'
+                '': { templateUrl: 'views/home.html',
+                       controller:'mainCtrl'
                 }
             }
         })
@@ -14,7 +15,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
             url: '/signup',
             views: {
                 '': { templateUrl: 'views/signup.html',
-                      controller:'myController' }
+                      controller:'authCtrl' }
             }
         })
 
@@ -22,7 +23,15 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
             url: '/login',
             views: {
                 '': { templateUrl: 'views/login.html',
-                    controller:'myController' }
+                    controller:'authCtrl' }
+            }
+        })
+
+        .state('books', {
+            url: '/books',
+            views: {
+                '': { templateUrl: 'views/books.html',
+                    controller:'booksCtrl' }
             }
         })
 

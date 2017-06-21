@@ -1,32 +1,57 @@
-<div class="col-xs-4 col-xs-offset-4 loginForm">
+<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4 loginForm">
 
-    <h1><span class="fa fa-sign-in"></span> Signup</h1>
+    <h1><span class="fa fa-user-plus"></span> Signup</h1>
 
+    <div  ng-show="visibleErrorLoginMessage" class="alert-message error"><p class="text-danger">{{errorLoginMessage}}</p></div>
 
     <!-- LOGIN FORM -->
-    <form action="/signup" method="post">
-        <div class="form-group">
-            <div class="form-group">
-                <label>First name</label>
-                <input type="text" class="form-control" name="firstName">
+    <form class="signupUserForm" name="signupUserForm"  ng-submit="signUpSubmitForm()" novalidate>
+        <div class="form-group"  ng-class="{ 'has-error' : signupUserForm.firstName.$invalid && !signupUserForm.firstName.$pristine }">
+            <label>First name</label>
+            <input type="text" class="form-control" ng-model='userInfo.firstName' name="firstName" required>
+            <div ng-show="!signupUserForm.firstName.$pristine" class="help-block" ng-messages="signupUserForm.firstName.$error" >
+                <div ng-messages-include='../messages/errorMsg.html'></div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label>Last name</label>
-                <input type="text" class="form-control" name="lastName">
+        <div class="form-group"  ng-class="{ 'has-error' : signupUserForm.lastName.$invalid && !signupUserForm.lastName.$pristine }">
+            <label>Last name</label>
+            <input type="text" class="form-control" ng-model='userInfo.lastName'  name="lastName" required>
+            <div ng-show="!signupUserForm.lastName.$pristine" class="help-block" ng-messages="signupUserForm.lastName.$error" >
+                <div ng-messages-include='../messages/errorMsg.html'></div>
             </div>
-            <div class="form-group">
-                <label>Phone</label>
-                <input type="text" class="form-control" name="phone">
+        </div>
+        <div class="form-group"  ng-class="{ 'has-error' : signupUserForm.phone.$invalid && !signupUserForm.phone.$pristine }">
+            <label>Phone</label>
+            <input type="text" class="form-control" ng-model='userInfo.phone' name="phone" required>
+            <div ng-show="!signupUserForm.phone.$pristine" class="help-block" ng-messages="signupUserForm.phone.$error" >
+                <div ng-messages-include='../messages/errorMsg.html'></div>
             </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : signupUserForm.email.$invalid && !signupUserForm.email.$pristine }">
             <label>Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
+            <input type="email" class="form-control" ng-model='userInfo.email' name="email" required>
+            <div ng-show="!signupUserForm.email.$pristine" class="help-block" ng-messages="signupUserForm.email.$error" >
+                <div ng-messages-include='../messages/errorMsg.html'></div>
+            </div>
         </div>
 
+        <div class="form-group" ng-class="{ 'has-error' : signupUserForm.password.$invalid && !signupUserForm.password.$pristine }">
+            <label>Password</label>
+            <input type="password" class="form-control" ng-model='userInfo.password' name="password" required>
+            <div ng-show="!signupUserForm.password.$pristine" class="help-block" ng-messages="signupUserForm.password.$error" >
+                <div ng-messages-include='../messages/errorMsg.html'></div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : signupUserForm.retPassword.$invalid && !signupUserForm.retPassword.$pristine }">
+            <label>Retype Password</label>
+            <input type="password" class="form-control" ng-model='userInfo.retPassword' name="retPassword" ng-pattern="userInfo.password" required>
+            <div ng-show="!signupUserForm.retPassword.$pristine" class="help-block" ng-messages="signupUserForm.retPassword.$error" >
+                <span ng-show="signupUserForm.retPassword.$error.pattern">Passwords do not match, please retype!</span>
+                <span ng-show="signupUserForm.retPassword.$error.required">Please retype password!</span>
+            </div>
+        </div>
+        <pre>signupUserForm.email.$error = {{ signupUserForm.email.$error | json }}</pre>
         <button type="submit" class="btn loginButton">Signup</button>
     </form>
 

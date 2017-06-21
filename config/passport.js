@@ -46,6 +46,7 @@ module.exports = function(passport) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, email, password, done) {
+            console.log('aaa');
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             connection.query("SELECT * FROM User WHERE email = ?",[email], function(err, rows) {
@@ -65,6 +66,8 @@ module.exports = function(passport) {
                     };
 
                     var insertQuery = "INSERT INTO User (firstName,lastName,phone,email,password) VALUES (?,?,?,?,?)";
+                    console.log(mysql.format(insertQuery,[newUserMysql.firstName,newUserMysql.lastName, newUserMysql.phone,newUserMysql.email,newUserMysql.password]))
+
                     connection.query(insertQuery,[newUserMysql.firstName,newUserMysql.lastName, newUserMysql.phone,newUserMysql.email,newUserMysql.password],function(err, rows) {
                         if (err){
                             return done(err);

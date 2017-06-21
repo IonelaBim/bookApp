@@ -1,0 +1,35 @@
+
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6 col-xs-12 col-md-4" ng-repeat="book in books">
+
+            <div class="well">
+                <h3><span class="fa fa-book"></span> {{book.title}}</h3>
+
+                <p>
+                    <strong>Description</strong>: {{book.description}} <br>
+                    <strong>Autor</strong>: {{book.author}}<br>
+                    <strong>Publisher</strong>:{{book.publisher}}<br>
+                    <strong>Published Year</strong>:{{book.publishedYear}}<br>
+                </p>
+                <hr/>
+                <p>
+                    <strong>Owner Name</strong>:{{book.ownerFirstName +" "+ book.ownerLasttName}} <br>
+                    <strong>email</strong>:{{book.ownerEmail}} <br>
+                    <strong>phone</strong>:{{book.ownerPhone}}<br>
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+

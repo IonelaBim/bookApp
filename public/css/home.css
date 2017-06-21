@@ -9,7 +9,8 @@ body 		{ padding-top:80px; }
     box-shadow: 10px 10px 5px #888888;
 }
 .loginButton {
-    color: white;
+    color: white!important;
     width:100%;
     background-color: #ab2758;
 }
+

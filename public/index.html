@@ -14,6 +14,8 @@
     <script src="vendors/angular-resource.min.js"></script>
     <!-- load angular-ui-router v-0.3.0 library -->
     <script src="vendors/angular-ui-router.min.js"></script>
+    <!-- load angular-ui-router v-0.3.0 library -->
+    <script src="vendors/angular-cookies.js"></script>
     <!-- load ngmessages -->
     <script src="vendors/angular-messages.min.js"></script>
     <!-- Bootstrap core and other CSS -->
@@ -26,7 +28,7 @@
 
 </head>
 
-<body ng-app="myApp" ng-controller="myCtrl">
+<body ng-app="myApp" ng-controller="mainCtrl">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -35,21 +37,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/home">WebSiteName</a>
+            <a class="navbar-brand" href="#/home">Share-a-Book</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/login"><span class="glyphicon glyphicon-user"></span> Login</a></li>
-                <li><a href="#/signup"><span class="glyphicon glyphicon-log-in"></span> Sign Up</a></li>
-            </ul>
-            <!--<ul class="nav navbar-nav navbar-right">-->
-            <!--<li ng-show="loggedinFlag"><a href=""><span class="glyphicon glyphicon-user" style="padding-right:5px;"></span>userName</a></li>-->
-            <!--<li ng-show="loggedinFlag"><a href="" ng-click="logOut()"><span class="glyphicon glyphicon-log-out" style="padding-right:5px;"></span>lOGOUT</a></li>-->
-            <!--<li ng-show="!loggedinFlag"><a href=
-            "/#/login"><span class="glyphicon glyphicon-log-in" style="padding-right:5px;"></span>Login</a></li>-->
+               <li ng-show="isLoggedIn"><a href=""><span class="glyphicon glyphicon-user" style="padding-right:5px;"></span>userName</a></li>
+               <li ng-show="isLoggedIn"><a href="" ng-click="Logout()"><span class="glyphicon glyphicon-log-out" style="padding-right:5px;"></span>LogOut</a></li>
+               <li ng-show="!isLoggedIn"><a href= "#/login"><span class="glyphicon glyphicon-log-in" style="padding-right:5px;"></span>LogIn</a></li>
+               <li ng-show="!isLoggedIn"><a href= "#/signup"><span class="fa fa-user-plus" style="padding-right:5px;"></span>SignUp</a></li>
 
-            <!--</ul>-->
+
+            </ul>
         </div>
     </div>
 </nav>
@@ -68,7 +67,9 @@
 <script src="js/modules/app.js"></script>
 
 <!-- controllers -->
-<script src="js/controllers/myController.js"></script>
+<script src="js/controllers/mainCtrl.js"></script>
+<script src="js/controllers/authCtrl.js"></script>
+<script src="js/controllers/booksCtrl.js"></script>
 
 
 <!--services -->
