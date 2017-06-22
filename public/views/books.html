@@ -1,10 +1,9 @@
-
-
+    <div>
+        <Button ng-click="showAddBookModal()">Add book </Button>
+    </div>
     <div class="row">
 
-        <!-- LOCAL INFORMATION -->
         <div class="col-sm-6 col-xs-12 col-md-4" ng-repeat="book in books">
-
             <div class="well">
                 <h3><span class="fa fa-book"></span> {{book.title}}</h3>
 
@@ -19,7 +18,6 @@
                     <strong>Owner Name</strong>:{{book.ownerFirstName +" "+ book.ownerLasttName}} <br>
                     <strong>email</strong>:{{book.ownerEmail}} <br>
                     <strong>phone</strong>:{{book.ownerPhone}}<br>
-
                 </p>
 
             </div>
@@ -32,4 +30,61 @@
 
 
 
+    <div class="modal fade" modal="AddNewBookModal" id="AddBookModal" role="dialog">
+        <div class="modal-dialog" style="margin:auto; max-width:400px">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#ab2758 ;border-color:#f79219 ">
+                    <button type="button" class="close" ng-click="closeModal()" >&times;</button>
+                    <h4 class="modal-title" style="color:white"><span class="glyphicon glyphicon-add"></span> Share your book</h4>
+                </div>
+                <div class="modal-body" style="margin:0px 20px">
+                    <form class="form-horizontal" name="addNewBookForm" novalidate>
 
+                        <div class="form-group"  ng-class="{ 'has-error' : addNewBookForm.title.$invalid && !addNewBookForm.title.$pristine }">
+                            <label>Title</label>
+                            <input type="text" class="form-control" ng-model='book.title' name="title" required>
+                            <div ng-show="!addNewBookForm.addNewBookForm.$pristine" class="help-block" ng-messages="addNewBookForm.title.$error" >
+                                <div ng-messages-include='../messages/errorMsg.html'></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group"  ng-class="{ 'has-error' : addNewBookForm.description.$invalid && !addNewBookForm.description.$pristine }">
+                            <label>Description </label>
+                            <input type="text" class="form-control" ng-model='book.lastName'  name="lastName" required>
+                            <div ng-show="!addNewBookForm.description.$pristine" class="help-block" ng-messages="addNewBookForm.description.$error" >
+                                <div ng-messages-include='../messages/errorMsg.html'></div>
+                            </div>
+                        </div>
+                        <div class="form-group"  ng-class="{ 'has-error' : addNewBookForm.author.$invalid && !addNewBookForm.author.$pristine }">
+                            <label>Author</label>
+                            <input type="text" class="form-control" ng-model='book.author' name="author" required>
+                            <div ng-show="!addNewBookForm.author.$pristine" class="help-block" ng-messages="addNewBookForm.author.$error" >
+                                <div ng-messages-include='../messages/errorMsg.html'></div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : addNewBookForm.publisher.$invalid && !addNewBookForm.publisher.$pristine }">
+                            <label>Publisher</label>
+                            <input type="text" class="form-control" ng-model='book.publisher' name="publisher" required>
+                            <div ng-show="!addNewBookForm.publisher.$pristine" class="help-block" ng-messages="addNewBookForm.publisher.$error" >
+                                <div ng-messages-include='../messages/errorMsg.html'></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-class="{ 'has-error' : addNewBookForm.publishedYear.$invalid && !addNewBookForm.publishedYear.$pristine }">
+                            <label>Published year</label>
+                            <input type="text" class="form-control" ng-model='book.password' name="password" required>
+                            <div ng-show="!addNewBookForm.publishedYear.$pristine" class="help-block" ng-messages="addNewBookForm.publishedYear.$error" >
+                                <div ng-messages-include='../messages/errorMsg.html'></div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button style="background-color: #ab2758;color:#fff" class="btn  btn-sm" ng-click="AddBook()">Add</button>
+                    <button class="btn btn-secondary btn-sm" ng-click="closeModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div> <!--END EDIT battery information modal-->

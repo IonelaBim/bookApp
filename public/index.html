@@ -41,7 +41,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
 
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" >
                <li ng-show="isLoggedIn"><a href=""><span class="glyphicon glyphicon-user" style="padding-right:5px;"></span>userName</a></li>
                <li ng-show="isLoggedIn"><a href="" ng-click="Logout()"><span class="glyphicon glyphicon-log-out" style="padding-right:5px;"></span>LogOut</a></li>
                <li ng-show="!isLoggedIn"><a href= "#/login"><span class="glyphicon glyphicon-log-in" style="padding-right:5px;"></span>LogIn</a></li>
@@ -62,6 +62,7 @@
 
 <!-- load BOOTSTRAP libraries file-->
 <script src="vendors/bootstrap-3.3.7.min.js"></script>
+<script src="vendors/bootstrap-ui-modal.js"></script>
 
 <!-- load angular's modules,controllers,services file-->
 <script src="js/modules/app.js"></script>

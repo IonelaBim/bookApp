@@ -6,4 +6,15 @@ app.controller('booksCtrl', ['$scope','BooksManagementServices','$state',functio
     }, function(error) {
         console.log(error);
     });
+
+    $scope.showAddBookModal = function(){
+         console.log("FFFFf")
+        $scope.AddNewBookModal=true;
+    }
+
+    $scope.closeModal = function(){
+        $scope.AddNewBookModal=false;
+        $scope.newBook={};
+        $scope.addNewBookForm.$setPristine();
+    }
 }]);
