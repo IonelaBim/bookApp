@@ -5,15 +5,20 @@ var filesToCache = [
     '/images/share1.jpg',
     '/images/sshare.jpg',
     '/css/home.css',
-    '/vendros/css/bootstrap.min.css',
+    '/vendors/css/bootstrap.min.css',
     '/vendors/css/bootstrap-font-awesome.css',
     '/vendors/bootstrap-3.3.7.min.js',
+    '/vendors/jquery-3.2.1.min.js',
     '/vendors/angular.min.js',
+    '/vendors/angular-cookies.js',
     '/vendors/angular-base64.min.js',
     '/vendors/angular-messages.min.js',
     '/vendors/angular-resource.min.js',
     '/vendors/angular-ui-router.min.js',
-    '/vendors/bootstrap-ui-modal.js'
+    '/vendors/bootstrap-ui-modal.js',
+    'js/modules/app.js',
+    'views/login.html',
+    'js/controllers/mainCtrl.js'
 
 ];
 self.addEventListener("install", function(event) {
