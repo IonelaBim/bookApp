@@ -1,4 +1,5 @@
 app.controller('authCtrl', ['$scope','LoginService','$state',function($scope,LoginService,$state) {
+    //validate login form
     $scope.loginSubmitForm=function(){
         if ($scope.loginUserForm.$valid){
             $scope.loginUser();
@@ -8,19 +9,18 @@ app.controller('authCtrl', ['$scope','LoginService','$state',function($scope,Log
             });
         }
     }
-    //
+    //Login function
     $scope.loginUser = function() {
         LoginService.Login({}, $scope.user, function(data) {
             $state.go('books');
 
         }, function(err) {
-            console.log('sadasd',err);
-
             $scope.errorLoginMessage=err.data.errMsg;
             $scope.visibleErrorLoginMessage=true;
         }); //end .login function
-    } //end loginUser fun
+    }
 
+    //validate signup form
     $scope.signUpSubmitForm=function(){
         if ($scope.signupUserForm.$valid){
             $scope.signupUser();
@@ -30,19 +30,16 @@ app.controller('authCtrl', ['$scope','LoginService','$state',function($scope,Log
             });
         }
     }
-    //
+    //SignUp function
     $scope.signupUser = function() {
-        console.log($scope.userInfo);
         LoginService.SignUp({}, $scope.userInfo, function(data) {
             $state.go('books');
 
         }, function(err) {
-            console.log('signupErr',err);
-
-            $scope.errorLoginMessage=err.data.errMsg;
-            $scope.visibleErrorLoginMessage=true;
-        }); //end .login function
-    } //end loginUser fun
+            $scope.errorSignUpMessage=err.data.errMsg;
+            $scope.visibleErrorSignUpMessage=true;
+        });
+    }
 
 
 }]);

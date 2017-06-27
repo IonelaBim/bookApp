@@ -43,7 +43,7 @@
                         <div class="form-group"  ng-class="{ 'has-error' : addNewBookForm.title.$invalid && !addNewBookForm.title.$pristine }">
                             <label>Title</label>
                             <input type="text" class="form-control" ng-model='book.title' name="title" required>
-                            <div ng-show="!addNewBookForm.addNewBookForm.$pristine" class="help-block" ng-messages="addNewBookForm.title.$error" >
+                            <div ng-show="!addNewBookForm.title.$pristine" class="help-block" ng-messages="addNewBookForm.title.$error" >
                                 <div ng-messages-include='../messages/errorMsg.html'></div>
                             </div>
                         </div>
@@ -72,8 +72,9 @@
 
                         <div class="form-group" ng-class="{ 'has-error' : addNewBookForm.publishedYear.$invalid && !addNewBookForm.publishedYear.$pristine }">
                             <label>Published year</label>
-                            <input type="text" class="form-control" ng-model='book.publishedYear' name="publishedYear" required>
+                            <input type="text" class="form-control" ng-model='book.publishedYear' name="publishedYear" ng-pattern="/^[0-9]{4}$/" required>
                             <div ng-show="!addNewBookForm.publishedYear.$pristine" class="help-block" ng-messages="addNewBookForm.publishedYear.$error" >
+                                <span ng-show="addNewBookForm.publishedYear.$error.pattern">Please insert a valid year!</span>
                                 <div ng-messages-include='../messages/errorMsg.html'></div>
                             </div>
                         </div>

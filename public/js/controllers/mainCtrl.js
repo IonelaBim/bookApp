@@ -1,5 +1,4 @@
 app.controller('mainCtrl', ['$scope','$rootScope','LoginService','$state','$cookies','$base64',function($scope,$rootScope, LoginService,$state,$cookies,$base64) {
-    $scope.firstName = "John";
     $('.nav a').on('click', function () {
         if ($(".navbar-toggle").is(":visible")) { $(".navbar-toggle").trigger("click"); } //bootstrap 3.x
     });

@@ -7,15 +7,22 @@ app.controller('booksCtrl', ['$scope','$rootScope','BooksManagementServices','$s
     });
 
     $scope.AddNewBook = function(){
-        $scope.book.ownerId= $rootScope.uid;
-        BooksManagementServices.addNewBook({}, $scope.book, function(data) {
-            console.log("succ");
-            $scope.closeModal();
-            $state.reload()
-        }, function(err) {
-            console.log('add a new book ERROR ',err);
+        if ($scope.addNewBookForm.$valid){
+            $scope.book.ownerId= $rootScope.uid;
+            BooksManagementServices.addNewBook({}, $scope.book, function(data) {
+                console.log("succ");
+                $scope.closeModal();
+                $state.reload()
+            }, function(err) {
+                console.log('add a new book ERROR ',err);
 
-        }); //end
+            });
+        }else{
+            angular.forEach($scope.addNewBookForm.$error.required, function(field) {
+                field.$setDirty();
+            });
+        }
+
     }
 
     $scope.showAddBookModal = function(){

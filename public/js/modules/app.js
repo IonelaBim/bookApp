@@ -31,11 +31,25 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
             url: '/books',
             views: {
                 '': { templateUrl: 'views/books.html',
-                    controller:'booksCtrl' }
+                    controller:'booksCtrl',
+                    }
             }
         })
 
 
 
 }]);
+
+app.run([ '$rootScope','$state','$stateParams',  function( $rootScope,$state,$stateParams) {
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+        if ($rootScope.isLoggedIn == false && toState.name === "books") {
+            event.preventDefault();
+            $state.transitionTo("login", null, {notify: false});
+            $state.go('login');
+        }
+    });
+}]);
+
 

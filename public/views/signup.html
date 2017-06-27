@@ -2,9 +2,9 @@
 
     <h1><span class="fa fa-user-plus"></span> Signup</h1>
 
-    <div  ng-show="visibleErrorLoginMessage" class="alert-message error"><p class="text-danger">{{errorLoginMessage}}</p></div>
+    <div  ng-show="visibleErrorSignUpMessage" class="alert-message error"><p class="text-danger">{{errorSignUpMessage}}</p></div>
 
-    <!-- LOGIN FORM -->
+    <!-- SignUp FORM -->
     <form class="signupUserForm" name="signupUserForm"  ng-submit="signUpSubmitForm()" novalidate>
         <div class="form-group"  ng-class="{ 'has-error' : signupUserForm.firstName.$invalid && !signupUserForm.firstName.$pristine }">
             <label>First name</label>
@@ -51,7 +51,6 @@
                 <span ng-show="signupUserForm.retPassword.$error.required">Please retype password!</span>
             </div>
         </div>
-        <pre>signupUserForm.email.$error = {{ signupUserForm.email.$error | json }}</pre>
         <button type="submit" class="btn loginButton">Signup</button>
     </form>
 
