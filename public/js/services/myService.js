@@ -1,6 +1,7 @@
 app.factory('BooksManagementServices',function($resource){
     return $resource("/secured/:resource/",{},{
-        'getAllBooks':{method:'GET',params:{resource:"books"}}
+        'getAllBooks':{method:'GET',params:{resource:"books"}},
+        'addNewBook': {method: 'POST',params:{resource:"books"}},
     });
 });
 
