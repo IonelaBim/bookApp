@@ -34,4 +34,51 @@ app.controller('booksCtrl', ['$scope','$rootScope','BooksManagementServices','$s
         $scope.newBook={};
         $scope.addNewBookForm.$setPristine();
     }
+
+    $scope.RemoveBook = function(bookId){
+
+            // $scope.book.ownerId= $rootScope.uid;
+            BooksManagementServices.removeBook({id:bookId}, $scope.book, function(data) {
+                console.log("succ");
+                $state.reload()
+            }, function(err) {
+                console.log('delete a book ERROR ',err);
+
+            });
+
+
+    }
+
+    $scope.showContactOwnerModal = function(){
+        $scope.ContactOwnerModal=true;
+    };
+
+    $scope.closeContactModal = function(){
+        $scope.ContactOwnerModal=false;
+        $scope.emailBody={};
+        $scope.contactOwnerForm.$setPristine();
+    }
+
+    $scope.sendEmail = function(){
+        if ($scope.contactOwnerForm.$valid){
+            $scope.emailInfo ={
+                from:'ionela92@gmail.com',
+                to:'ionela92@gmail.com',
+                subject:'Get boook info',
+                body:$scope.emailBody}
+            // $scope.book.ownerId= $rootScope.uid;
+            BooksManagementServices.sendEmail({}, $scope.emailInfo, function(data) {
+                console.log("succ");
+                $scope.closeContactModal();
+            }, function(err) {
+                console.log('ERROR  send email',err);
+            });
+        }else{
+            angular.forEach($scope.contactOwnerForm.$error.required, function(field) {
+                field.$setDirty();
+            });
+        }
+
+    }
+
 }]);

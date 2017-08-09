@@ -4,7 +4,9 @@ var dbconfig = require('../config/database');
 var base64 = require('base-64');
 var connection = mysql.createConnection(dbconfig.connection);
 connection.query('USE ' + dbconfig.database);
-
+var config = require('../config/development');
+var sendgrid  = require('sendgrid')(config.sendgrid.api_key);
+var sendgridService = require('./service');
 module.exports = function(app, passport) {
 
     // =====================================
@@ -75,6 +77,72 @@ module.exports = function(app, passport) {
 
         });
     });
+
+
+    // Remove a book
+    app.delete('/secured/book/:id', function(req, res,done) {
+        var deleteQuery = "DELETE FROM book where bookId =? ";
+        connection.query(deleteQuery,[req.params.id], function(err, response) {
+            if (err) {
+                console.log('Err', err);
+                return done(err);
+            } else{
+
+                res.status(200).json({"error" : false, "responseCode": "200","data":response});
+                res.end();
+
+            }
+
+        });
+    });
+
+
+    app.post('/secured/sendEmail',function(req,res){
+        var data = req.body;
+        var template = './public/templates/contact.jade';
+        console.log('data',data);
+
+        sendgridService.compileToHtml(template, 'data',data,function(err, html) {
+            if (err) {
+                return  res.status(404).json({"error" : true, "responseCode": "404","data":null,'errMsg':'Compiled email failed' });
+            }
+            var request = sendgrid.emptyRequest({
+                method: 'POST',
+                path: '/v3/mail/send',
+                body: {
+                    "personalizations": [
+                        {
+                            to: [
+                                {
+                                    email: data.to,
+                                },
+                            ],
+                            subject:  data.subject,
+                        },
+                    ],
+                    "from": {
+                        "email": data.from
+                    },
+                    content: [
+                        {
+                            "type": "text/html",
+                            "value": html
+                        }
+                    ],
+                },
+            });
+
+            sendgrid.API(request, function (err, response) {
+                if (err) {
+                    console.log('Error response received');
+                    return  res.status(404).json({"error" : true, "responseCode": "404","data":null,'errMsg':'error to send email' })
+                }
+
+                res.status(200).json({"error" : false, "responseCode": "200","data":response});
+                res.end();
+            });
+        })
+    })
 
     // =====================================
     // LOGOUT ==============================

@@ -19,6 +19,8 @@
                     <strong>email</strong>:{{book.ownerEmail}} <br>
                     <strong>phone</strong>:{{book.ownerPhone}}<br>
                 </p>
+                <button ng-click="showContactOwnerModal()">Contact book owner</button>
+                <button ng-show="book.ownerId == uid" ng-click="RemoveBook(book.bookId)">Delete</button>
 
             </div>
 
@@ -88,4 +90,33 @@
                 </div>
             </div>
         </div>
-    </div> <!--END EDIT battery information modal-->
+    </div> <!--END   modal-->
+
+
+    <div class="modal fade" modal="ContactOwnerModal" id="ContactOwnerModal" role="dialog">
+        <div class="modal-dialog" style="margin:auto; max-width:400px">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#ab2758 ;border-color:#f79219 ">
+                    <button type="button" class="close" ng-click="closeContactModal()" >&times;</button>
+                    <h4 class="modal-title" style="color:white"><span class="glyphicon glyphicon-add"></span> Contact book owner</h4>
+                </div>
+                <div class="modal-body" style="margin:0px 20px">
+                    <form class="form-horizontal" name="contactOwnerForm" novalidate>
+                        <div class="form-group" ng-class="{ 'has-error' : contactOwnerForm.emailBody.$invalid && !contactOwnerForm.emailBody.$pristine }">
+                            <label>Email body</label>
+                            <textarea class="form-control" rows="4" cols="50" ng-model='emailBody' name="emailBody" placeholder="Insert text email and send to the book owner" required></textarea>
+                            <div ng-show="!contactOwnerForm.emailBody.$pristine" class="help-block" ng-messages="contactOwnerForm.emailBody.$error" >
+                                <div ng-messages-include='../messages/errorMsg.html'></div>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button style="background-color: #ab2758;color:#fff" class="btn  btn-sm" ng-click="sendEmail()">Send email</button>
+                    <button class="btn btn-secondary btn-sm" ng-click="closeContactModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div> <!--END   modal-->

@@ -1,7 +1,9 @@
 app.factory('BooksManagementServices',function($resource){
-    return $resource("/secured/:resource/",{},{
+    return $resource("/secured/:resource/:id",{},{
         'getAllBooks':{method:'GET',params:{resource:"books"}},
         'addNewBook': {method: 'POST',params:{resource:"books"}},
+        'removeBook':{method:'DELETE',params:{resource:"book", id:'@id'}},
+        'sendEmail':{method: 'POST',params:{resource:"sendEmail"}}
     });
 });
 
