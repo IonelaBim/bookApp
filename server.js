@@ -7,6 +7,8 @@ var session  = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var fs = require('fs');
+var https = require('https');
 var app      = express();
 var port     = process.env.PORT || 3016;
 
@@ -18,7 +20,10 @@ var flash    = require('connect-flash');
 
 require('./config/passport')(passport); // pass passport for configuration
 
-
+var options = {
+    key  : fs.readFileSync('server.key'),
+    cert : fs.readFileSync('server.crt')
+};
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
@@ -46,4 +51,7 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 
 // launch ======================================================================
 app.listen(port);
-console.log('The magic happens on port ' + port);
+// https.createServer(options, app).listen(port, function () {
+//     console.log('The magic happens on port ' + port);
+// });
+

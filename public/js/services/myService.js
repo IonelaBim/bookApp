@@ -1,9 +1,12 @@
+/* angular APP services  */
+
 app.factory('BooksManagementServices',function($resource){
-    return $resource("/secured/:resource/:id",{},{
+    return $resource("/secured/:resource/:subresource/:id",{},{
         'getAllBooks':{method:'GET',params:{resource:"books"}},
         'addNewBook': {method: 'POST',params:{resource:"books"}},
         'removeBook':{method:'DELETE',params:{resource:"book", id:'@id'}},
-        'sendEmail':{method: 'POST',params:{resource:"sendEmail"}}
+        'sendEmail':{method: 'POST',params:{resource:"sendEmail"}},
+        'booking':{method:'POST',params:{resource:"book",subresource:"booking" }}
     });
 });
 

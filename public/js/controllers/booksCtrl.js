@@ -1,6 +1,6 @@
 app.controller('booksCtrl', ['$scope','$rootScope','BooksManagementServices','$state',function($scope,$rootScope,BooksManagementServices,$state) {
 
-    BooksManagementServices.getAllBooks({},function(data, getResponseHeaders) {
+    BooksManagementServices.getAllBooks({},function(data) {
         $scope.books = data.data;
     }, function(error) {
         console.log(error);
@@ -23,50 +23,51 @@ app.controller('booksCtrl', ['$scope','$rootScope','BooksManagementServices','$s
             });
         }
 
-    }
+    };
 
     $scope.showAddBookModal = function(){
         $scope.AddNewBookModal=true;
-    }
+    };
 
     $scope.closeModal = function(){
         $scope.AddNewBookModal=false;
         $scope.newBook={};
         $scope.addNewBookForm.$setPristine();
-    }
+    };
 
     $scope.RemoveBook = function(bookId){
 
-            // $scope.book.ownerId= $rootScope.uid;
+        if ($scope.book.ownerId= $rootScope.uid) {
             BooksManagementServices.removeBook({id:bookId}, $scope.book, function(data) {
                 console.log("succ");
                 $state.reload()
             }, function(err) {
                 console.log('delete a book ERROR ',err);
-
             });
+        }
 
+    };
 
-    }
-
-    $scope.showContactOwnerModal = function(){
+    $scope.showContactOwnerModal = function(book){
         $scope.ContactOwnerModal=true;
+        $scope.currentBoook =book;
     };
 
     $scope.closeContactModal = function(){
         $scope.ContactOwnerModal=false;
         $scope.emailBody={};
         $scope.contactOwnerForm.$setPristine();
-    }
+    };
 
     $scope.sendEmail = function(){
         if ($scope.contactOwnerForm.$valid){
-            $scope.emailInfo ={
-                from:'ionela92@gmail.com',
-                to:'ionela92@gmail.com',
+
+            $scope.emailInfo = {
+                from:$rootScope.uid,
+                to:$scope.currentBoook.ownerEmail,
                 subject:'Get boook info',
-                body:$scope.emailBody}
-            // $scope.book.ownerId= $rootScope.uid;
+                body:$scope.emailBody
+            };
             BooksManagementServices.sendEmail({}, $scope.emailInfo, function(data) {
                 console.log("succ");
                 $scope.closeContactModal();
@@ -79,6 +80,24 @@ app.controller('booksCtrl', ['$scope','$rootScope','BooksManagementServices','$s
             });
         }
 
+    };
+
+    $scope.booking = function(book){
+
+            $scope.emailInfo ={
+                userId:$rootScope.uid,
+                to:book.ownerEmail,
+                subject:'Booking book',
+                body:book
+            };
+            BooksManagementServices.booking({}, $scope.emailInfo, function(data) {
+                console.log("succ");
+            }, function(err) {
+                console.log('ERROR  send email',err);
+            });
+
+
     }
+
 
 }]);

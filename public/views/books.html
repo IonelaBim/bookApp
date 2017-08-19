@@ -19,8 +19,9 @@
                     <strong>email</strong>:{{book.ownerEmail}} <br>
                     <strong>phone</strong>:{{book.ownerPhone}}<br>
                 </p>
-                <button ng-click="showContactOwnerModal()">Contact book owner</button>
+                <button ng-show="book.ownerId != uid" ng-click="showContactOwnerModal(book)">Contact owner</button>
                 <button ng-show="book.ownerId == uid" ng-click="RemoveBook(book.bookId)">Delete</button>
+                <button ng-show="book.ownerId != uid" ng-click="booking(book)">Booking</button>
 
             </div>
 
