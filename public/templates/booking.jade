@@ -1,0 +1,14 @@
+h3 Hello #{data.body.ownerFirstName}
+br
+p You have a booking for your book
+ b #{data.body.title}
+ | from #{data.user.firstName +' '+data.user.lastName}.
+ | Please contact this person for sending the book.
+p  The contact data are:
+p phone: #{data.user.phone}
+p email: #{data.user.email}
+button
+  a(href='http://127.0.0.1:3016/book/status/1/'+data.bookingId) Accept booking
+button
+  a(href='http://127.0.0.1:3016/book/status/2/'+data.bookingId) Reject booking
+p Thank you
