@@ -22,6 +22,7 @@
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "sendgrid": "^5.2.0"
+    "sendgrid": "^5.2.0",
+    "urlsafe-base64": "^1.0.0"
   }
 }

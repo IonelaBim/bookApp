@@ -10,6 +10,12 @@ var sendgrid  = require('sendgrid')(config.sendgrid.api_key);
 var sendgridService = require('./service');
 var moment = require('moment');
 
+const webPush = require('web-push');
+webPush.setVapidDetails(
+    'mailto:ionela92@gmail.com',
+    config.vapid.publicKey, // process.env.VAPID_PUBLIC_KEY,
+    config.vapid.privateKey // process.env.VAPID_PRIVATE_KEY
+);
 // ==========   Rest API    ==========================
 
 module.exports = function(app, passport) {
@@ -271,6 +277,7 @@ module.exports = function(app, passport) {
                 console.log('err',err);
                 return done(err);
             }
+            sendUsersNotification(req,res);
             console.log("SUCCESS INSER BOOK",rows);
             res.status(200).json({"error" : false, "responseCode": "200","data":rows});
             res.end();
@@ -306,10 +313,150 @@ module.exports = function(app, passport) {
          });
     });
 
+
+
+    app.post('/push/subscribe', function (req, res) {
+        return saveSubscriptionToDatabase(req.body)
+            .then(function(subscriptionId) {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({ data: { success: true } }));
+            })
+            .catch(function(err) {
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    error: {
+                        id: 'unable-to-save-subscription',
+                        message: 'The subscription was received but we were unable to save it to our database.'
+                    }
+                }));
+            });
+
+        const subscription = {
+            endpoint: req.body.endpoint,
+            keys: {
+                p256dh: req.body.keys.p256dh,
+                auth: req.body.keys.auth
+            }
+        };
+
+    });
+
+
+
+    app.post('/push/unsubscribe', function (req, res) {
+        var endpoint = req.body.endpoint;
+        var deletesubscription = 'delete from Subscription where  endpoint=?'
+        // remove from database
+        connection.query (deletesubscription,[endpoint], function (err,data){
+            if(err) {
+                console.error('error with unsubscribe', err);
+                res.status(500).send('unsubscription not possible');
+            }
+            console.log('unsubscribed');
+            res.status(200).send('unsubscribe');
+        });
+
+    })
+
+
+
+    app.post('/send/subscription', function (req, res) {
+        return getSubscriptionsFromDatabase()
+            .then(function (subscriptions) {
+                var promiseChain = Promise.resolve();
+               console.log(111,subscriptions)
+                for (var i = 0; i < subscriptions.length; i++) {
+                    const subscription = {
+                        endpoint: subscriptions[i].endpoint,
+                        expirationTime: null,
+                        keys: {
+                            p256dh: subscriptions[i].p256dh,
+                            auth: subscriptions[i].auth
+                        }
+                    };
+                    const payload = JSON.stringify({
+                        title: 'Welcome',
+                        body: 'Thank you for enabling push notifications',
+                        // icon: '/android-chrome-192x192.png'
+                    });
+
+                    const options = {
+                        TTL: 3600 // 1sec * 60 * 60 = 1h
+                    };
+                    console.log('sunn', subscription);
+                    promiseChain = promiseChain.then(function () {
+                        return triggerPushMsg(subscription, payload);
+                    });
+                }
+
+                return promiseChain;
+            })
+            .then(function () {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({data: {success: true}}));
+            })
+            .catch(function (err) {
+                res.status(500);
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({
+                    error: {
+                        id: 'unable-to-send-messages',
+                        message: 'We were unable to send messages to all subscriptions : ' + err.message
+                    }
+                }));
+            });
+
+    });
 };
 
+function sendUsersNotification(req,res){
+return getSubscriptionsFromDatabase()
+    .then(function (subscriptions) {
+        var promiseChain = Promise.resolve();
+        console.log(111,subscriptions)
+        for (var i = 0; i < subscriptions.length; i++) {
+            const subscription = {
+                endpoint: subscriptions[i].endpoint,
+                expirationTime: null,
+                keys: {
+                    p256dh: subscriptions[i].p256dh,
+                    auth: subscriptions[i].auth
+                }
+            };
+            const payload = JSON.stringify({
+                title: 'Welcome',
+                body: 'Thank you for enabling push notifications',
+                // icon: '/android-chrome-192x192.png'
+            });
 
+            const options = {
+                TTL: 3600 // 1sec * 60 * 60 = 1h
+            };
+            console.log('sunn', subscription);
+            promiseChain = promiseChain.then(function () {
+                return triggerPushMsg(subscription, payload);
+            });
+        }
 
+        return promiseChain;
+    })
+    .then(function () {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({data: {success: true}}));
+    })
+    .catch(function (err) {
+        res.status(500);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({
+            error: {
+                id: 'unable-to-send-messages',
+                message: 'We were unable to send messages to all subscriptions : ' + err.message
+            }
+        }));
+    });
+
+}
 
 // route middleware to make sure that user is authenticated
 function isLoggedIn(req, res, next) {
@@ -331,3 +478,42 @@ function isLoggedIn(req, res, next) {
 }
 
 
+function saveSubscriptionToDatabase(subscription) {
+    console.log('aa',subscription);
+
+    var savesubscription = 'Insert into Subscription (endpoint,auth,p256dh) values (?,?,?)'
+    return new Promise(function(resolve, reject) {
+        connection.query(savesubscription,[subscription.endpoint,subscription.keys.auth,subscription.keys.p256dh], function(err, newDoc) {
+            if (err) {
+                reject(err);
+                return;
+            } else {
+                resolve(newDoc._id);
+            }
+        })
+    });
+};
+
+
+const triggerPushMsg = function(subscription, payload) {
+       return webPush.sendNotification(subscription, payload)
+            .catch(function(err){
+            if (err.statusCode === 410) {
+                console.log('eerr',err);
+                // return deleteSubscriptionFromDatabase(subscription._id);
+            } else {
+                console.log('Subscription is no longer valid: ', err);
+            }
+    });
+};
+
+
+function getSubscriptionsFromDatabase() {
+    var sql = "SELECT * FROM Subscription";
+    return new Promise(function(resolve, reject){
+        connection.query(sql, function(err, result) {
+            if (err) return reject(err);
+            resolve(result);
+        })
+    })
+}
