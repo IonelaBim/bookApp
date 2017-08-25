@@ -201,7 +201,7 @@ self.addEventListener('notificationclick', function(e) {
     if (action === 'close') {
         notification.close();
     } else {
-        clients.openWindow('https://localhost:3016/#/books');
+        clients.openWindow('https://shareyourbooks-ionelabim.c9users.io/#/books');
         notification.close();
     }
 });

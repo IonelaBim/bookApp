@@ -63,7 +63,7 @@ module.exports = function(app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/secured', isLoggedIn, function(req, res,done) {
         connection.query("SELECT book.*, appUser.firstName,appUser.lastName,appUser.email,appUser.phone "+
-        " FROM book book inner join `user`  appUser  on book.ownerId = appUser.id;", function(err, books) {
+        " FROM Book book inner join `user`  appUser  on book.ownerId = appUser.id;", function(err, books) {
             if (err) {
                 console.log('Err', err);
                 return done(err);
@@ -84,7 +84,7 @@ module.exports = function(app, passport) {
     app.get('/secured/books', function(req, res,done) {
         connection.query("SELECT book.*, appUser.firstName as ownerFirstName,appUser.lastName as ownerLastName, "+
             " appUser.email as ownerEmail,appUser.phone as ownerPhone "+
-            " FROM book book inner join `user`  appUser  on book.ownerId = appUser.id;", function(err, books) {
+            " FROM Book book inner join `user`  appUser  on book.ownerId = appUser.id;", function(err, books) {
             if (err) {
                 console.log('Err', err);
                 return done(err);
