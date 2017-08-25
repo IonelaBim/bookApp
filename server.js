@@ -11,7 +11,6 @@ var fs = require('fs');
 var https = require('https');
 var app      = express();
 var port     = process.env.PORT || 3016;
-
 var passport = require('passport');
 var flash    = require('connect-flash');
 
@@ -33,7 +32,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-//app.set('view engine', 'ejs'); // set up ejs for templating
 app.use( express.static( "public" ) );
 // required for passport
 app.use(session({
@@ -49,7 +47,9 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
-app.listen(3016);
+app.listen(port);
+
+
 // https.createServer(options, app).listen(port, function () {
 //     console.log('The magic happens on port ' + port);
 // });
