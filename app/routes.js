@@ -63,7 +63,7 @@ module.exports = function(app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/secured', isLoggedIn, function(req, res,done) {
         connection.query("SELECT book.*, appUser.firstName,appUser.lastName,appUser.email,appUser.phone "+
-        " FROM Book book inner join `user`  appUser  on book.ownerId = appUser.id;", function(err, books) {
+        " FROM Book book inner join `User`  appUser  on book.ownerId = appUser.id;", function(err, books) {
             if (err) {
                 console.log('Err', err);
                 return done(err);
@@ -84,7 +84,7 @@ module.exports = function(app, passport) {
     app.get('/secured/books', function(req, res,done) {
         connection.query("SELECT book.*, appUser.firstName as ownerFirstName,appUser.lastName as ownerLastName, "+
             " appUser.email as ownerEmail,appUser.phone as ownerPhone "+
-            " FROM Book book inner join `user`  appUser  on book.ownerId = appUser.id;", function(err, books) {
+            " FROM Book book inner join `User`  appUser  on book.ownerId = appUser.id;", function(err, books) {
             if (err) {
                 console.log('Err', err);
                 return done(err);
@@ -124,7 +124,7 @@ module.exports = function(app, passport) {
         var data = req.body;
         var template = './public/templates/contact.jade';
         console.log('goodd')
-        var getUserInfoQuery="SELECT firstName,lastName,phone,email from user where id=?";
+        var getUserInfoQuery="SELECT firstName,lastName,phone,email from User where id=?";
         connection.query(getUserInfoQuery,[data.from], function(err, user) {
             if (err) {
                 console.log('Err', err);
@@ -193,7 +193,7 @@ module.exports = function(app, passport) {
     app.post('/secured/book/booking',function(req,res){
         var data = req.body;
         var template = './public/templates/booking.jade';
-        var getUserInfoQuery="SELECT firstName,lastName,phone,email from user where id=?";
+        var getUserInfoQuery="SELECT firstName,lastName,phone,email from User where id=?";
         var insertQuery = "INSERT INTO Booking (bookId,bookingDate,userId) VALUES (?,?,?)";
 
         connection.query(getUserInfoQuery,[data.userId], function(err, user) {
