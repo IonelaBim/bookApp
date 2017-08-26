@@ -496,7 +496,7 @@ function saveSubscriptionToDatabase(subscription) {
 
 
 const triggerPushMsg = function(subscription, payload,options) {
-    //webPush.setGCMAPIKey('AIzaSyBgEUpD9Wsyga6KCPj6K70t0K05c32qCSE');
+    webPush.setGCMAPIKey('AAAA1Ti225o:APA91bHd7CeKoXFsLAANSOX0Xg-scpEcEEJz_YILcCO2KuB35bX8BQDZFu04wjOJ21mIt7pue8KQgrLAQc2_VUc9AIGnEP4f8HRmRH9BFq_Nm5EUsJ0OEXBaJ75gzlaMRZA5x0NtX0Ry');
     return webPush.sendNotification(subscription, payload,options)
             .catch(function(err){
             if (err.statusCode === 410) {

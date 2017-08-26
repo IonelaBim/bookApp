@@ -195,7 +195,7 @@ self.addEventListener("activate", function(event) {
 
 self.addEventListener('notificationclick', function(e) {
     var notification = e.notification;
-    var primaryKey = notification.data.primaryKey;
+    //var primaryKey = notification.data.primaryKey;
     var action = e.action;
 
     if (action === 'close') {
@@ -205,6 +205,7 @@ self.addEventListener('notificationclick', function(e) {
         notification.close();
     }
 });
+
 self.addEventListener('push', function(event) {
     clients.matchAll({includeUncontrolled : true }).then(function(c) {
         var notificationData = {};
@@ -219,8 +220,8 @@ self.addEventListener('push', function(event) {
                 vibrate: [100, 50, 100]
             };
         }
-
-            self.registration.showNotification(notificationData.title, {
+console.log('a ajuns in sv')
+          return  self.registration.showNotification(notificationData.title, {
                 body: notificationData.body,
                 icon: notificationData.icon,
                 vibrate: [100, 50, 100]
