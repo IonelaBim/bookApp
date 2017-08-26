@@ -10,9 +10,10 @@ var morgan = require('morgan');
 var fs = require('fs');
 var https = require('https');
 var app      = express();
-var port     = process.env.PORT || 3016;
 var passport = require('passport');
 var flash    = require('connect-flash');
+
+var port     = process.env.PORT || 3016;
 
 // configuration ===============================================================
 // connect to our database

@@ -205,25 +205,26 @@ self.addEventListener('notificationclick', function(e) {
         notification.close();
     }
 });
-self.addEventListener('push', function(e) {
-    clients.matchAll().then(function(c) {
-        if (c.length === 0) {
-            // Show notification
-            var options = {
-                body: 'Share a book have new a new book!',
+self.addEventListener('push', function(event) {
+    clients.matchAll({includeUncontrolled : true }).then(function(c) {
+        var notificationData = {};
+
+        try {
+            notificationData = event.data.json();
+        } catch (e) {
+            notificationData = {
+                title: 'Share a book have new a new book!',
+                body: 'Default message',
                 icon: 'images/icons/icon-128x128.png',
-                vibrate: [100, 50, 100],
-                data: {
-                    dateOfArrival: Date.now(),
-                    primaryKey: '2'
-                }
+                vibrate: [100, 50, 100]
             };
-
-             return   self.registration.showNotification('Hello world!', options)
-
-        } else {
-            // Send a message to the page to update the UI
-            console.log('Application is already open!');
         }
+
+            self.registration.showNotification(notificationData.title, {
+                body: notificationData.body,
+                icon: notificationData.icon,
+                vibrate: [100, 50, 100]
+            })
+
     });
 });
