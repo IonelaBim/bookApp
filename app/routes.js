@@ -425,9 +425,9 @@ return getSubscriptionsFromDatabase()
                 }
             };
             const payload = JSON.stringify({
-                title: 'Welcome',
-                body: 'Thank you for enabling push notifications',
-                // icon: '/android-chrome-192x192.png'
+                title: 'Share a book',
+                body: 'Share a book have new a new book!',
+                icon: 'images/icons/icon-128x128.png'
             });
 
             const options = {
@@ -496,7 +496,7 @@ function saveSubscriptionToDatabase(subscription) {
 
 
 const triggerPushMsg = function(subscription, payload,options) {
-    webPush.setGCMAPIKey('AIzaSyBgEUpD9Wsyga6KCPj6K70t0K05c32qCSE');
+    //webPush.setGCMAPIKey('AIzaSyBgEUpD9Wsyga6KCPj6K70t0K05c32qCSE');
     return webPush.sendNotification(subscription, payload,options)
             .catch(function(err){
             if (err.statusCode === 410) {
