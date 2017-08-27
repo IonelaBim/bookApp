@@ -7,24 +7,30 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
             url: '/home',
             views: {
                 '': { templateUrl: 'views/home.html',
-                       controller:'mainCtrl'
+                       controller:'mainCtrl',
+                       
                 }
-            }
+            },
+            containerClass: 'app-home'
         })
         .state('signup', {
             url: '/signup',
             views: {
                 '': { templateUrl: 'views/signup.html',
-                      controller:'authCtrl' }
-            }
+                      controller:'authCtrl',
+                      }
+            },
+           containerClass: 'app-signup'
         })
 
         .state('login', {
             url: '/login',
             views: {
                 '': { templateUrl: 'views/login.html',
-                    controller:'authCtrl' }
-            }
+                    controller:'authCtrl',
+                    }
+            },
+            containerClass: 'app-login'
         })
 
         .state('books', {
@@ -33,7 +39,8 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
                 '': { templateUrl: 'views/books.html',
                     controller:'booksCtrl',
                     }
-            }
+            },
+            containerClass: 'app-books'
         })
 
 
@@ -43,7 +50,7 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
 app.run([ '$rootScope','$state','$stateParams',  function( $rootScope,$state,$stateParams) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-
+           $rootScope.containerClass = toState.containerClass;
         if ($rootScope.isLoggedIn == false && toState.name === "books") {
             event.preventDefault();
             $state.transitionTo("login", null, {notify: false});

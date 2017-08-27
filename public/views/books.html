@@ -1,10 +1,11 @@
-    <div>
+    <div class='books-body-page'>
+        <div class="round-button"><div class="round-button-circle" ng-click="showAddBookModal()"><a href="http://example.com" class="round-button">Add book!</a></div></div>
         <Button ng-click="showAddBookModal()">Add book </Button>
     </div>
-    <div class="row">
+    <div class="row books-body-page">
 
         <div class="col-sm-6 col-xs-12 col-md-4" ng-repeat="book in books">
-            <div class="well">
+            <div class="book-container">
                 <h3><span class="fa fa-book"></span> {{book.title}}</h3>
 
                 <p>

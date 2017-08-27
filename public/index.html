@@ -39,7 +39,7 @@
 
 </head>
 
-<body ng-app="myApp" ng-controller="mainCtrl">
+<body ng-app="myApp" ng-controller="mainCtrl" class="{{containerClass}}">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -66,10 +66,11 @@
     Enable Push Messaging
 </button>
 <button  class="sendpushnotuf">
-    test
+    test {{containerClass}}
 </button>
+
 <!--load views-->
-<div ui-view></div>
+<div class="{{containerClass}}" ui-view></div>
 
 <!-- load JQuery libraries file-->
 <script src="vendors/jquery-3.2.1.min.js"></script>
