@@ -210,6 +210,10 @@ module.exports = function(app, passport) {
                     }
                     data.bookingId=rows.insertId;
                     console.log('FFFF',data);
+                    
+                    const nodemailer = require('nodemailer');
+
+
                     sendgridService.compileToHtml(template, 'data',data,function(err, html) {
                         if (err) {
                             return res.status(404).json({
@@ -374,7 +378,7 @@ module.exports = function(app, passport) {
                             p256dh: subscriptions[i].p256dh,
                             auth: subscriptions[i].auth
                         },
-                        api_key: '725081843590'
+                        api_key: '915779541914'
                     };
                     const payload = JSON.stringify({
                         title: 'Share a book',
@@ -501,7 +505,16 @@ const triggerPushMsg = function(subscription, payload,options) {
             .catch(function(err){
             if (err.statusCode === 410) {
                 console.log('eerr',err);
-                // return deleteSubscriptionFromDatabase(subscription._id);
+                var deletesubscription = 'delete from Subscription where  endpoint=?'
+                // remove from database
+                return connection.query (deletesubscription,[subscription.endpoint], function (err,data){
+                    if(err) {
+                       return  console.error('error delete subscription', err);
+                       
+                    }
+                    console.log('Remove subscription');
+                    
+                });
             } else {
                 console.log('Subscription is no longer valid: ', err);
             }

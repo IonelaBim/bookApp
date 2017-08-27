@@ -220,7 +220,6 @@ self.addEventListener('push', function(event) {
                 vibrate: [100, 50, 100]
             };
         }
-console.log('a ajuns in sv')
           return  self.registration.showNotification(notificationData.title, {
                 body: notificationData.body,
                 icon: notificationData.icon,

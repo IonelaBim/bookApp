@@ -1,11 +1,21 @@
+h5 Hello,
 
 p #{data.body}
 
-
-p Contact info:
+br
 p
- b name:
+ b Contact info:
+p
+ i name:&nbsp; 
  | #{data.user.firstName +' ' +data.user.lastName}
 p
- b phone:
+ i phone:&nbsp; 
  | #{data.user.phone}
+p
+ i email:&nbsp; 
+ | #{data.user.email}
+ 
+p(style='font-size:11px') This is  a contact email from a 
+ span 
+   a(href='https://shareyourbooks-ionelabim.c9users.io/#/books') shareYourBooks 
+ | app user!

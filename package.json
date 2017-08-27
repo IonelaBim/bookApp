@@ -16,14 +16,18 @@
     "fs": "0.0.1-security",
     "https": "^1.0.0",
     "jade": "^1.11.0",
+    "jade-bootstrap": "^1.0.14",
     "moment": "^2.18.1",
     "morgan": "^1.6.0",
     "mysql": "^2.7.0",
+    "nodemailer": "^4.0.1",
     "os": "^0.1.1",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "save": "^2.3.1",
     "sendgrid": "^5.2.0",
-    "urlsafe-base64": "^1.0.0"
+    "urlsafe-base64": "^1.0.0",
+    "web-push": "^3.2.2"
   }
 }
