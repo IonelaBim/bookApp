@@ -3,7 +3,7 @@
     margin-top: 50px;
 }
 
-body 		{ padding-top:80px; }
+body 		{ padding-top:60px; }
 .loginForm {
     border: 2px solid lightgray;
     box-shadow: 10px 10px 5px #888888;
@@ -31,3 +31,31 @@ body 		{ padding-top:80px; }
 }
 
 
+.addBook {
+    top: 77px;
+    position: absolute;
+    right: 3px;
+    z-index:2222;
+}
+
+.gray {
+    color:gray;
+}
+
+.blue {
+    color:#f1c40f;
+}
+
+.line1 {
+    width: 35px;
+    height: 34px;
+    border-bottom: 2px solid #880c0c;
+    -webkit-transform: translateY(7px) translateX(-21px) rotate(130deg);
+    position: absolute;
+    left: 30px;
+    top: 60px;
+    
+}
+.notification {
+    border : 1px solid red;
+}

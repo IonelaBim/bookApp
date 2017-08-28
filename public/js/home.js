@@ -3,6 +3,7 @@
 
 const applicationServerPublicKey = 'BD5WTwwULXbchhPVwDcq5ztmnfOCHR2sKd6_s4x0MdFPaUhmet6FRt4mKfIjuSHC2S89ncvozqnSC0KcIInLduQ';
 const pushButton = document.querySelector('.js-push-btn');
+const line = document.querySelector('.line');
 const pushButton22 = document.querySelector('.sendpushnotuf');
 var hasSubscription = false;
 var serviceWorkerRegistration = null;
@@ -27,9 +28,13 @@ function updatePushButton() {
     // pushWrapper.classList.remove('hidden');
 
     if (hasSubscription) {
-        pushButton.textContent = 'Disable Push Notifications';
+         pushButton.classList.remove('gray')
+           pushButton.classList.add('blue')
+           line.classList.remove('line1')
     } else {
-        pushButton.textContent = 'Enable Push Notifications';
+         pushButton.classList.remove('blue')
+         pushButton.classList.add('gray')
+          line.classList.add('line1')
     }
 }
 
@@ -118,7 +123,6 @@ function initPush() {
             updatePushButton();
         });
 }
-
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('../service-worker.js')
         .then(function (registration) {
