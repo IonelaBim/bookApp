@@ -65,8 +65,34 @@ self.addEventListener("fetch", function(event) {
         /* If we don't block the event as shown below, then the request will go to
          the network as usual.
          */
+         
         console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
-        return;
+        //  return;
+       return  event.respondWith(
+         
+            
+        //     // Try to get the response from the network
+            fetch(event.request.clone()).catch(function() {
+                console.log('dddd')
+        	// If it doesn't work, post a failure message to the client
+        // 	self.clients.match().then(function(client) {
+        // 	      console.log('client',client)
+        //     	    client.postMessage({
+        //         	message: "Post unsuccessful.",
+        //  	        alert: alert // A string we instantiated earlier
+        //     	    });
+        // 	});
+        
+        self.clients.get().then(function(client) {    
+        	      console.log('client',client)
+        }).catch(function(){
+            console.log('cache');
+        });
+        	// Respond with the page that the request originated from
+        	return caches.match(event.request.clone().referrer);
+            })
+        );
+        
     }
 
     /* Similar to event.waitUntil in that it blocks the fetch event on a promise.

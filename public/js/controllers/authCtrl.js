@@ -15,7 +15,8 @@ app.controller('authCtrl', ['$scope','LoginService','$state',function($scope,Log
             $state.go('books');
 
         }, function(err) {
-            $scope.errorLoginMessage=err.data.errMsg;
+            console.log(err);
+            $scope.errorLoginMessage=err.data ? err.data.errMsg : 'InternalError' ;
             $scope.visibleErrorLoginMessage=true;
         }); //end .login function
     }

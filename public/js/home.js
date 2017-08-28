@@ -156,3 +156,21 @@ pushButton22.addEventListener('click', function() {
     });
 
 })
+
+navigator.serviceWorker.addEventListener('message', function(event) {
+    console.log('messageEvent');
+    // alert(event.data.alert);
+    store();
+});
+
+function store() {
+    var newPost = ""; // Inputted values
+    // Iterate through the inputs
+    $("input").each(function() {
+        newPost += $(this).val() + ",";
+    });
+    // Get rid of the last comma
+    newPost = newPost.substr(0, newPost.length - 1);
+    // Store the data
+    localStorage.setItem('newPost', newPost);
+}
