@@ -33,7 +33,7 @@ body 		{ padding-top:60px; }
 
 .addBook {
     top: 77px;
-    position: absolute;
+    position: fixed;
     right: 3px;
     z-index:2222;
 }
