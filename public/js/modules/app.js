@@ -8,7 +8,6 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlR
             views: {
                 '': { templateUrl: 'views/home.html',
                        controller:'mainCtrl',
-                       
                 }
             },
             containerClass: 'app-home'

@@ -20,7 +20,7 @@ var filesToCache = [
     'views/login.html',
     'js/controllers/mainCtrl.js',
     'js/controllers/authCtrl.js',
-    'js/controllers/mainCtrl.js',
+    'js/controllers/booksCtrl.js',
     '/manifest.json',
     'js/services/myService.js',
     '/images/icons/icon-128x128.png',
@@ -67,32 +67,8 @@ self.addEventListener("fetch", function(event) {
          */
          
         console.log('WORKER: fetch event ignored.', event.request.method, event.request.url);
-        //  return;
-       return  event.respondWith(
-         
-            
-        //     // Try to get the response from the network
-            fetch(event.request.clone()).catch(function() {
-                console.log('dddd')
-        	// If it doesn't work, post a failure message to the client
-        // 	self.clients.match().then(function(client) {
-        // 	      console.log('client',client)
-        //     	    client.postMessage({
-        //         	message: "Post unsuccessful.",
-        //  	        alert: alert // A string we instantiated earlier
-        //     	    });
-        // 	});
-        
-        self.clients.get().then(function(client) {    
-        	      console.log('client',client)
-        }).catch(function(){
-            console.log('cache');
-        });
-        	// Respond with the page that the request originated from
-        	return caches.match(event.request.clone().referrer);
-            })
-        );
-        
+        return;
+     
     }
 
     /* Similar to event.waitUntil in that it blocks the fetch event on a promise.
@@ -240,8 +216,8 @@ self.addEventListener('push', function(event) {
             notificationData = event.data.json();
         } catch (e) {
             notificationData = {
-                title: 'Share a book have new a new book!',
-                body: 'Default message',
+                title: 'Share a book',
+                body: 'We have a new book!',
                 icon: 'images/icons/icon-128x128.png',
                 vibrate: [100, 50, 100]
             };

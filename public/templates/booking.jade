@@ -1,21 +1,22 @@
-    h3 Hello #{data.body.ownerFirstName},
-    br
-    p 
-     span(style='font-size:16px;color:blue') #{data.user.firstName +' '+data.user.lastName} &nbsp;
-     |is interesed about your book &nbsp;
-     a(href='https://shareyourbooks-ionelabim.c9users.io/#/books' stylw='font-size:16px!important') #{data.body.title}
-     |,&nbsp;that means you do a great job uploading this book on our site! We are greatful for this! 
-    p Now remains just one step, to accept this booking and contact this person for sending the book.
-    p 
-     button
-      a(href='https://shareyourbooks-ionelabim.c9users.io/book/status/1/'+data.bookingId) Accept booking
-     button
-      a(href='https://shareyourbooks-ionelabim.c9users.io/book/status/2/'+data.bookingId) Reject booking
-    br
-    p(style='font-size:16px;') Thank you !: )  
-    br
-    p  The user contact data are:
-    p(style='font-style:italic') phone: 
-     |#{data.user.phone}
-    p(style='font-style:italic') email: 
-     |#{data.user.email}
+h3 Hello #{data.body.ownerFirstName},
+
+p 
+ span(style='font-size:16px;color:blue') #{data.user.firstName +' '+data.user.lastName} &nbsp;
+ |is interesed in one of your books: &nbsp;
+ a(href='https://shareyourbooks-ionelabim.c9users.io/#/books' stylw='font-size:16px!important') #{data.body.title}
+ |.&nbsp;It means you doing a great job uploading this book on our site! We are so happy about it!
+p Now there is just one more step for you to complete. Please accept this request from  #{data.user.firstName +' '+data.user.lastName} and contact her/him in order to sent out the book.
+p Please accept/reject request.
+p 
+ button
+  a(href='https://shareyourbooks-ionelabim.c9users.io/book/status/1/'+data.bookingId) Accept booking
+ button
+  a(href='https://shareyourbooks-ionelabim.c9users.io/book/status/2/'+data.bookingId) Reject booking
+br
+p(style='font-size:16px;') Thank you! 
+br
+p   #{data.user.firstName +' '+data.user.lastName}  contact details:
+p(style='font-style:italic;padding-left: 20px') phone: 
+ |#{data.user.phone}
+p(style='font-style:italic;padding-left: 20px') email: 
+ |#{data.user.email}

@@ -281,10 +281,10 @@ module.exports = function(app, passport) {
                 console.log('err',err);
                 return done(err);
             }
-            sendUsersNotification(req,res);
+           return  sendUsersNotification(req,res,book.title);
             console.log("SUCCESS INSER BOOK",rows);
-            res.status(200).json({"error" : false, "responseCode": "200","data":rows});
-            res.end();
+            //res.status(200).json({"error" : false, "responseCode": "200","data":rows});
+           // res.end();
         });
     });
 
@@ -382,7 +382,7 @@ module.exports = function(app, passport) {
                     };
                     const payload = JSON.stringify({
                         title: 'Share a book',
-                        body: 'Share a book have new a new book!',
+                        body: 'We have a new book!',
                         icon: 'images/icons/icon-128x128.png'
                     });
 
@@ -414,7 +414,8 @@ module.exports = function(app, passport) {
     });
 };
 
-function sendUsersNotification(req,res){
+function sendUsersNotification(req,res,book){
+    console.log('nnnn',book);
 return getSubscriptionsFromDatabase()
     .then(function (subscriptions) {
         var promiseChain = Promise.resolve();
@@ -429,8 +430,8 @@ return getSubscriptionsFromDatabase()
                 }
             };
             const payload = JSON.stringify({
-                title: 'Share a book',
-                body: 'Share a book have new a new book!',
+                title: 'New book!',
+                body: book,
                 icon: 'images/icons/icon-128x128.png'
             });
 
@@ -483,7 +484,6 @@ function isLoggedIn(req, res, next) {
 
 
 function saveSubscriptionToDatabase(subscription) {
-    console.log('aa',subscription);
 
     var savesubscription = 'Insert into Subscription (endpoint,auth,p256dh) values (?,?,?)'
     return new Promise(function(resolve, reject) {
