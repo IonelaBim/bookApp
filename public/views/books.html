@@ -4,8 +4,8 @@
     <div class="row books-body-page">
 
         <div class="col-sm-6 col-xs-12 col-md-4" ng-repeat="book in books">
-            <div class="book-container">
-                <h3><span class="fa fa-book"></span> {{book.title}}</h3>
+            <div class=" {{book.status=='approved' ? 'book-container booked ':'book-container'}}">
+                <h3><span class="fa fa-book"></span> {{book.title +' '+ book.status}}</h3>
 
                 <p>
                     <strong>Description</strong>: {{book.description}} <br>

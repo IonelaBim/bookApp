@@ -62,8 +62,8 @@ module.exports = function(app, passport) {
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/secured', isLoggedIn, function(req, res,done) {
-        connection.query("SELECT book.*, appUser.firstName,appUser.lastName,appUser.email,appUser.phone "+
-        " FROM Book book inner join `User`  appUser  on book.ownerId = appUser.id;", function(err, books) {
+        connection.query("SELECT book.*,  booking.status, appUser.firstName,appUser.lastName,appUser.email,appUser.phone "+
+        " FROM Book book inner join `User`  appUser  on book.ownerId = appUser.id left join Booking booking on booking.id = book.bookingId;", function(err, books) {
             if (err) {
                 console.log('Err', err);
                 return done(err);
@@ -82,9 +82,9 @@ module.exports = function(app, passport) {
     });
 
     app.get('/secured/books', function(req, res,done) {
-        connection.query("SELECT book.*, appUser.firstName as ownerFirstName,appUser.lastName as ownerLastName, "+
+        connection.query("SELECT book.*, booking.status,appUser.firstName as ownerFirstName,appUser.lastName as ownerLastName, "+
             " appUser.email as ownerEmail,appUser.phone as ownerPhone "+
-            " FROM Book book inner join `User`  appUser  on book.ownerId = appUser.id;", function(err, books) {
+            " FROM Book book inner join `User`  appUser  on book.ownerId = appUser.id  left join Booking booking on booking.id = book.bookingId;", function(err, books) {
             if (err) {
                 console.log('Err', err);
                 return done(err);
@@ -195,6 +195,7 @@ module.exports = function(app, passport) {
         var template = './public/templates/booking.jade';
         var getUserInfoQuery="SELECT firstName,lastName,phone,email from User where id=?";
         var insertQuery = "INSERT INTO Booking (bookId,bookingDate,userId) VALUES (?,?,?)";
+        var updateBookQuery = "Update Book Set bookingId= ? where bookId = ? ;";
 
         connection.query(getUserInfoQuery,[data.userId], function(err, user) {
             if (err) {
@@ -210,60 +211,68 @@ module.exports = function(app, passport) {
                     }
                     data.bookingId=rows.insertId;
                     console.log('FFFF',data);
-                    
-                    const nodemailer = require('nodemailer');
-
-
-                    sendgridService.compileToHtml(template, 'data',data,function(err, html) {
-                        if (err) {
-                            return res.status(404).json({
-                                "error": true,
-                                "responseCode": "404",
-                                "data": null,
-                                'errMsg': 'Compiled email failed'
-                            });
-                        }
-                        var request = sendgrid.emptyRequest({
-                            method: 'POST',
-                            path: '/v3/mail/send',
-                            body: {
-                                personalizations: [
-                                    {
-                                        to: [{
-                                                email: data.to
-                                            }
-                                        ],
-                                        subject: data.subject
-                                    }
-                                ],
-                                from: {
-                                    email: data.user.email
-                                },
-                                content: [
-                                    {
-                                        type: "text/html",
-                                        value: html
-                                    }
-                                ]
-                            }
-                        });
-
-                        sendgrid.API(request, function (err, response) {
+                       connection.query(updateBookQuery,[ data.bookingId,data.body.bookId], function(err, user) {
                             if (err) {
-                                console.log('Error response received');
-                                return res.status(404).json({
-                                    "error": true,
-                                    "responseCode": "404",
-                                    "data": null,
-                                    'errMsg': 'error to send email'
-                                })
-                            }
-                            console.log("SUCCESS booking BOOK", rows);
-                            res.status(200).json({"error": false, "responseCode": "200", "data": rows});
-                            res.end();
+                                console.log('Err', err);
+                                return  res.status(404).json({"error" : true, "responseCode": "404","data":null,'errMsg':err});
+                
+                            } else {
 
-                        })
+            
+                                sendgridService.compileToHtml(template, 'data',data,function(err, html) {
+                                    if (err) {
+                                        return res.status(404).json({
+                                            "error": true,
+                                            "responseCode": "404",
+                                            "data": null,
+                                            'errMsg': 'Compiled email failed'
+                                        });
+                                    }
+                                    var request = sendgrid.emptyRequest({
+                                        method: 'POST',
+                                        path: '/v3/mail/send',
+                                        body: {
+                                            personalizations: [
+                                                {
+                                                    to: [{
+                                                            email: data.to
+                                                        }
+                                                    ],
+                                                    subject: data.subject
+                                                }
+                                            ],
+                                            from: {
+                                                email: data.user.email
+                                            },
+                                            content: [
+                                                {
+                                                    type: "text/html",
+                                                    value: html
+                                                }
+                                            ]
+                                        }
+                                    });
+            
+                                    sendgrid.API(request, function (err, response) {
+                                        if (err) {
+                                            console.log('Error response received');
+                                            return res.status(404).json({
+                                                "error": true,
+                                                "responseCode": "404",
+                                                "data": null,
+                                                'errMsg': 'error to send email'
+                                            })
+                                        }
+                                        console.log("SUCCESS booking BOOK", rows);
+                                        res.status(200).json({"error": false, "responseCode": "200", "data": rows});
+                                        res.end();
+                                    
+                                    })
+                                
+                            
                 });
+                            }
+                       })
 
               })
             }

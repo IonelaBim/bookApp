@@ -59,3 +59,7 @@ body 		{ padding-top:60px; }
 .notification {
     border : 1px solid red;
 }
+
+.booked {
+    opacity: 0.3;
+}

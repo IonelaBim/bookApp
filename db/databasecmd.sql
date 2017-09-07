@@ -21,8 +21,6 @@ CREATE TABLE `Book` (
     publisher varchar(60),
     publishedYear numeric(4),
     ownerId int not null,
-    borrowed  tinyint(1),
-    borrowingId  int,
     FOREIGN KEY (ownerId) REFERENCES `User`(id));
 
 
