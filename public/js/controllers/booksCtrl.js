@@ -2,7 +2,6 @@ app.controller('booksCtrl', ['$scope','$rootScope','BooksManagementServices','$s
 
     BooksManagementServices.getAllBooks({},function(data) {
         $scope.books = data.data;
-        console.log('boooks',$scope.books)
     }, function(error) {
         console.log(error);
     });

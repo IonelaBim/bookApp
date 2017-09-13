@@ -4,8 +4,8 @@
     <div class="row books-body-page">
 
         <div class="col-sm-6 col-xs-12 col-md-4" ng-repeat="book in books">
-            <div class=" {{book.status=='approved' ? 'book-container booked ':'book-container'}}">
-                <h3><span class="fa fa-book"></span> {{book.title +' '+ book.status}}</h3>
+            <div ng-class="book.status ? 'book-container booked' : 'book-container'">
+                <h3><span class="fa fa-book"></span> {{book.title}}</h3>
 
                 <p>
                     <strong>Description</strong>: {{book.description}} <br>
@@ -21,8 +21,8 @@
                 </p>
                 <button ng-show="book.ownerId != uid" ng-click="showContactOwnerModal(book)">Contact owner</button>
                 <button ng-show="book.ownerId == uid" ng-click="RemoveBook(book.bookId)">Delete</button>
-                <button ng-show="book.ownerId != uid" ng-click="booking(book)">Booking</button>
-
+                <button ng-disabled="book.status=='approved' || book.status=='pending'" ng-show="book.ownerId != uid" ng-click="booking(book)">Booking</button>
+                
             </div>
 
 

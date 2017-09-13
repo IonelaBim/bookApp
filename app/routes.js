@@ -123,7 +123,6 @@ module.exports = function(app, passport) {
     app.post('/secured/sendEmail',function(req,res){
         var data = req.body;
         var template = './public/templates/contact.jade';
-        console.log('goodd')
         var getUserInfoQuery="SELECT firstName,lastName,phone,email from User where id=?";
         connection.query(getUserInfoQuery,[data.from], function(err, user) {
             if (err) {
