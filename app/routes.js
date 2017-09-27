@@ -103,7 +103,7 @@ module.exports = function(app, passport) {
     // DELETE A BOOK =======================
     // =====================================
     app.delete('/secured/book/:id', function(req, res,done) {
-        var deleteQuery = "DELETE FROM book where bookId =? ";
+        var deleteQuery = "DELETE FROM Book where bookId =? ";
         connection.query(deleteQuery,[req.params.id], function(err, response) {
             if (err) {
                 console.log('Err', err);

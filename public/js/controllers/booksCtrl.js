@@ -35,10 +35,10 @@ app.controller('booksCtrl', ['$scope','$rootScope','BooksManagementServices','$s
         $scope.addNewBookForm.$setPristine();
     };
 
-    $scope.RemoveBook = function(bookId){
-
-        if ($scope.book.ownerId= $rootScope.uid) {
-            BooksManagementServices.removeBook({id:bookId}, $scope.book, function(data) {
+    $scope.RemoveBook = function(book){
+        console.log('33434',book)
+        if (book.ownerId == $rootScope.uid) {
+            BooksManagementServices.removeBook({id:book.bookId}, book, function(data) {
                 console.log("succ");
                 $state.reload()
             }, function(err) {
